@@ -57,7 +57,8 @@ class SiteController extends Controller
 
     public function actionRates()
     {
-        return $this->render('rates');
+        $queryRates = Rates::find()->all();
+        return $this->render('rates', ['queryRates'=>$queryRates]);
     }
     /**
      * Displays homepage.
