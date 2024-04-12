@@ -25,11 +25,19 @@
     </tbody>
 </table>
 <?
-$this->registerJs(
-    "$('.edit').on('focusout',function () {let res=confirm('Сохранить внесенные изменения?'); if(res){
-        let txt = $(this).text();
-        alert(txt+' =>ok');
-    }else{return false;}
-    });"
-);
+$this->registerJs("
+    $('.edit').on('focusout',function () {let res=confirm('Сохранить внесенные изменения?'); if(res){
+            let txt = $(this).text();
+            const { digits, letters } = separateDigits(txt);
+            alert(digits+' =>ok');
+        }else{return false;}
+    });
+    function separateDigits(text) {
+        const regex = /\D/g;
+        let digits = text.replace(regex, '');
+        let letters = text.replace(/[^a-z]/gi, '');        
+        return { digits, letters };
+    }
+    
+");
 ?>
