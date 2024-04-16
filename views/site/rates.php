@@ -30,17 +30,18 @@
     </tbody>
 </table>
 <?
-$url = Url::toRoute("rates");
+$url = Url::toRoute("site/update");
 $this->registerJs("
     $('.edit').on('focusout',function () {let res=confirm('Сохранить внесенные изменения?'); if(res){
+            let node = $(this).parent().attr(\"id\");
             let txt = $(this).text();
-            const { digits, letters } = separateDigits(txt);            
             $.ajax({
                 url: '".$url."',
                 dataType: \"json\", 
                 type:\"GET\", 
-                data: { \"myspeed\": \"digits\"},
+                data: { \"myspeed\": separateDigits(txt), \"id\":separateDigits(node)},
                 success: function(response) {
+                    console.log(response);                    
                     if(response == \"ok\") alert('Сохранено');
                 },
                 error : function(jqXHR, exception){
@@ -52,9 +53,7 @@ $this->registerJs("
     });
     function separateDigits(text) {
         const regex = /\D/g;
-        let digits = text.replace(regex, '');
-        let letters = text.replace(/[^a-z]/gi, '');        
-        return { digits, letters };
+        return text.replace(regex, '');
     }
     
 ");
