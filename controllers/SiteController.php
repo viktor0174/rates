@@ -55,11 +55,9 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionRates()
-    {
-        $queryRates = Rates::find()->all();
-        return $this->render('rates', ['queryRates'=>$queryRates]);
-    }
+    
+
+
     /**
      * Displays homepage.
      *
@@ -130,5 +128,17 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Вывести список тарифов
+     */ 
+    public function actionRates()
+    {
+        if(\Yii::$app->request->isAjax){
+			return 'Запрос принят';
+		}
+        $queryRates = Rates::find()->all();
+        return $this->render('rates', ['queryRates'=>$queryRates]);
     }
 }

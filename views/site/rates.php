@@ -1,3 +1,8 @@
+<?
+    use yii\helpers\Url;
+    use yii\widgets\Pjax;
+    use yii\widgets\ActiveForm;
+?>
 <style>
     .ratesList tr td {cursor:default;}
     .edit {cursor:text !important; }
@@ -25,11 +30,24 @@
     </tbody>
 </table>
 <?
+$url = Url::toRoute("rates");
 $this->registerJs("
     $('.edit').on('focusout',function () {let res=confirm('Сохранить внесенные изменения?'); if(res){
             let txt = $(this).text();
-            const { digits, letters } = separateDigits(txt);
-            alert(digits+' =>ok');
+            const { digits, letters } = separateDigits(txt);            
+            $.ajax({
+                url: '".$url."',
+                dataType: \"json\", 
+                type:\"GET\", 
+                data: { \"myspeed\": \"digits\"},
+                success: function(response) {
+                    if(response == \"ok\") alert('Сохранено');
+                },
+                error : function(jqXHR, exception){
+                    console.log(jqXHR);
+                    console.log(exception);
+                }
+              });
         }else{return false;}
     });
     function separateDigits(text) {
