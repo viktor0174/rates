@@ -134,11 +134,30 @@ class SiteController extends Controller
      * Вывести список тарифов
      */ 
     public function actionRates()
-    {
-        if(\Yii::$app->request->isAjax){
-			return 'Запрос принят';
-		}
+    {        
         $queryRates = Rates::find()->all();
         return $this->render('rates', ['queryRates'=>$queryRates]);
+    }
+
+    public function actionUpdate() 
+    {
+        // if(\Yii::$app->request->isAjax)
+        // {
+            
+            $id = Yii::$app->request->get('id');            
+            $_rate = Rates::find()->where(['id'=>$id])->one();
+            print_r($_rate);
+            if($_rate->load(Yii::$app->request->get())){
+            // if($_rate->validate()){
+                // $_rate->save();
+                $response = "ok";
+            }   
+            
+            // $myspeed = Yii::$app->request->get('myspeed');
+            
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $response;
+		// }
+
     }
 }

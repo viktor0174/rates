@@ -39,7 +39,7 @@ $this->registerJs("
                 url: '".$url."',
                 dataType: \"json\", 
                 type:\"GET\", 
-                data: { \"myspeed\": separateDigits(txt), \"id\":separateDigits(node)},
+                data: { \"speed\": separateDigits(txt), \"id\":separateDigits(node)},
                 success: function(response) {
                     console.log(response);                    
                     if(response == \"ok\") alert('Сохранено');
